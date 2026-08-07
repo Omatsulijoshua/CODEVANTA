@@ -116,8 +116,8 @@ export default function AdminDashboardPage() {
             <div className="space-y-4">
               <div className="flex items-center justify-between p-4 bg-[#12121A] rounded-lg border border-[#2A2A3C]">
                 <div>
-                  <p className="font-semibold text-white">NestJS API Gateway</p>
-                  <p className="text-xs text-gray-400">http://localhost:3000/api/v1/health (Latency: 14ms)</p>
+                  <p className="font-semibold text-white">NestJS API Gateway (Render)</p>
+                  <p className="text-xs text-gray-400">https://codevanta-backend-api.onrender.com/api/v1/health (Latency: 14ms)</p>
                 </div>
                 <span className="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-xs rounded-full border border-emerald-500/20 font-semibold">
                   OPERATIONAL
