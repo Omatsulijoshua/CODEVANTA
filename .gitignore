@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+.npm/
+
+# Build outputs
+dist/
+.next/
+out/
+build/
+.dart_tool/
+.pub-cache/
+.pub/
+
+# IDE & OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.orig
+
+# Environment & Secrets
+.env
+.env.local
+.env.production
+.env.staging
+
+# Flutter
+apps/mobile/.dart_tool/
+apps/mobile/build/
+apps/mobile/.flutter-plugins
+apps/mobile/.flutter-plugins-dependencies
+apps/mobile/.packages
+
+# Database & Storage
+*.db
+*.sqlite
+apps/backend/prisma/*.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

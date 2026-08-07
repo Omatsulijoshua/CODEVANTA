@@ -1,0 +1,188 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  USER
+  ADMIN
+  SUPERADMIN
+}
+
+enum SubscriptionTier {
+  FREE
+  PRO
+  AI_PRO
+  TEAM
+  ENTERPRISE
+}
+
+enum AgentCapability {
+  CHAT
+  READ_FILES
+  SEARCH_FILES
+  CREATE_FILES
+  EDIT_FILES
+  DELETE_FILES
+  TERMINAL
+  GIT
+  WEB
+  TESTS
+}
+
+model User {
+  id               String            @id @default(uuid())
+  email            String            @unique
+  passwordHash     String?
+  fullName         String?
+  avatarUrl        String?
+  role             Role              @default(USER)
+  subscriptionTier SubscriptionTier  @default(FREE)
+  isEmailVerified  Boolean           @default(false)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  deletedAt        DateTime?
+
+  profile          Profile?
+  sessions         Session[]
+  devices          Device[]
+  projects         Project[]
+  agentSessions    AgentSession[]
+  auditLogs        AuditLog[]
+
+  @@map("users")
+}
+
+model Profile {
+  id          String   @id @default(uuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  theme       String   @default("codevanta-dark")
+  preferences Json     @default("{}")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("profiles")
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token        String   @unique
+  refreshToken String   @unique
+  userAgent    String?
+  ipAddress    String?
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("sessions")
+}
+
+model Device {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  deviceName String
+  deviceOs   String
+  pushToken  String?
+  lastActive DateTime @default(now())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("devices")
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  ownerId     String
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  isPublic    Boolean  @default(false)
+  settings    Json     @default("{}")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+
+  files       ProjectFile[]
+  sessions    AgentSession[]
+
+  @@map("projects")
+}
+
+model ProjectFile {
+  id        String   @id @default(uuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  path      String
+  isFolder  Boolean  @default(false)
+  size      Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([projectId, path])
+  @@map("project_files")
+}
+
+model AIProvider {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  baseUrl   String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  agents    Agent[]
+
+  @@map("ai_providers")
+}
+
+model Agent {
+  id            String            @id @default(uuid())
+  providerId    String
+  provider      AIProvider        @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  name          String
+  model         String
+  description   String?
+  capabilities  AgentCapability[]
+  isMarketplace Boolean           @default(true)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  sessions      AgentSession[]
+
+  @@map("agents")
+}
+
+model AgentSession {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projectId String?
+  project   Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  agentId   String
+  agent     Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  title     String   @default("New Chat")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("agent_sessions")
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action    String
+  resource  String
+  metadata  Json     @default("{}")
+  createdAt DateTime @default(now())
+
+  @@map("audit_logs")
+}

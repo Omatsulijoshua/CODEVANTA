@@ -1,0 +1,22 @@
+{
+  "name": "codevanta-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "CODEVANTA — Mobile AI Development IDE Monorepo",
+  "workspaces": [
+    "apps/backend",
+    "apps/admin"
+  ],
+  "scripts": {
+    "dev:backend": "npm run start:dev --workspace=apps/backend",
+    "dev:admin": "npm run dev --workspace=apps/admin",
+    "build:backend": "npm run build --workspace=apps/backend",
+    "build:admin": "npm run build --workspace=apps/admin",
+    "prisma:generate": "npm run prisma:generate --workspace=apps/backend",
+    "prisma:migrate": "npm run prisma:migrate --workspace=apps/backend",
+    "test:backend": "npm run test --workspace=apps/backend"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  }
+}
