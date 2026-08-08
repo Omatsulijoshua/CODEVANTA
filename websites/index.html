@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeVanta — Mobile AI Development IDE</title>
+  <meta name="description" content="Your IDE. Your Code. Your AI. The premier mobile AI development environment for iPhone, iPad, and Android.">
+  
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <!-- Google Fonts & Lucide Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-dark: #12121A;
+      --bg-card: #1A1A26;
+      --border: #2A2A3C;
+      --primary: #6E00FF;
+      --primary-hover: #821DFF;
+      --accent: #00F0FF;
+      --text: #FFFFFF;
+      --text-muted: #94A3B8;
+      --success: #00E676;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Ambient Background Glows */
+    .glow-bg {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(110, 0, 255, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Header */
+    header {
+      position: relative;
+      z-index: 10;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-box {
+      width: 42px;
+      height: 42px;
+      background: var(--primary);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.5rem;
+      color: #fff;
+      box-shadow: 0 0 20px rgba(110, 0, 255, 0.4);
+    }
+
+    .logo-text h1 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-text p {
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover {
+      color: #fff;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      z-index: 10;
+      max-width: 900px;
+      margin: 4rem auto 2rem;
+      text-align: center;
+      padding: 0 1.5rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(110, 0, 255, 0.15);
+      border: 1px solid rgba(110, 0, 255, 0.4);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h2 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -1.5px;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #FFFFFF 0%, #A5B4FC 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto 3rem;
+    }
+
+    /* Download Action Buttons */
+    .download-cta-group {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 4rem;
+    }
+
+    .btn-download {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      text-decoration: none;
+      color: #fff;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      min-width: 220px;
+    }
+
+    .btn-download:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(110, 0, 255, 0.3);
+    }
+
+    .btn-download.ios-btn {
+      background: linear-gradient(135deg, var(--primary) 0%, #4F00B8 100%);
+      border: none;
+    }
+
+    .btn-download.ios-btn:hover {
+      background: linear-gradient(135deg, var(--primary-hover) 0%, #6000E0 100%);
+    }
+
+    .btn-icon {
+      font-size: 1.8rem;
+    }
+
+    .btn-text {
+      text-align: left;
+    }
+
+    .btn-text span {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      opacity: 0.8;
+    }
+
+    .btn-text strong {
+      display: block;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .web-preview-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-top: 1rem;
+      transition: opacity 0.2s;
+    }
+
+    .web-preview-btn:hover {
+      opacity: 0.8;
+    }
+
+    /* Features Grid */
+    .features-section {
+      max-width: 1200px;
+      margin: 4rem auto;
+      padding: 0 2rem;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 3rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      transition: border-color 0.3s;
+    }
+
+    .feature-card:hover {
+      border-color: var(--primary);
+    }
+
+    .feature-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: rgba(110, 0, 255, 0.15);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      max-width: 1200px;
+      margin: 6rem auto 0;
+      padding: 3rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero h2 {
+        font-size: 2.4rem;
+      }
+      .download-cta-group {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      footer {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-bg"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="logo-container">
+      <div class="logo-box">V</div>
+      <div class="logo-text">
+        <h1>CODEVANTA</h1>
+        <p>MOBILE AI IDE</p>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="https://codevanta-app.vercel.app" target="_blank" class="nav-link">Web IDE App</a>
+      <a href="https://codevanta-admin.vercel.app" target="_blank" class="nav-link">Admin Dashboard</a>
+      <a href="https://codevanta-backend-api.onrender.com/api/docs" target="_blank" class="nav-link">API Docs</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <main>
+    <section class="hero">
+      <div class="badge">
+        <i data-lucide="sparkles" style="width: 16px; height: 16px;"></i>
+        YOUR IDE. YOUR CODE. YOUR AI.
+      </div>
+      <h2>Code, Build, and Deploy from Anywhere</h2>
+      <p>The premier mobile AI development environment built for iOS & Android. Empower your coding workflow with multi-provider AI agents, touch Git client, and cloud runner sandboxes.</p>
+
+      <!-- 2 Download Links for iOS and Android -->
+      <div class="download-cta-group">
+        <!-- iOS Download Button -->
+        <a href="https://codevanta-app.vercel.app" class="btn-download ios-btn" target="_blank">
+          <i data-lucide="apple" class="btn-icon"></i>
+          <div class="btn-text">
+            <span>Download on the</span>
+            <strong>App Store (iOS)</strong>
+          </div>
+        </a>
+
+        <!-- Android Download Button -->
+        <a href="https://codevanta-app.vercel.app" class="btn-download" target="_blank">
+          <i data-lucide="play" class="btn-icon" style="color: var(--success);"></i>
+          <div class="btn-text">
+            <span>Get it on</span>
+            <strong>Google Play (Android)</strong>
+          </div>
+        </a>
+      </div>
+
+      <div>
+        <a href="https://codevanta-app.vercel.app" class="web-preview-btn" target="_blank">
+          Or Launch Instant Web IDE Preview &rarr;
+        </a>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+      <h2 class="section-title">Engineered for Mobile Power Developers</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i data-lucide="bot"></i>
+          </div>
+          <h3>Multi-Provider AI Gateway</h3>
+          <p>Seamlessly switch between Claude 3.5 Sonnet, GPT-4o, and Gemini 1.5 Pro with context tags (@file, @selection, @terminal).</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="color: var(--accent); background: rgba(0, 240, 255, 0.15);">
+            <i data-lucide="git-branch"></i>
+          </div>
+          <h3>Touch-Friendly Git Client</h3>
+          <p>Stage changes, manage branches, create commits, and inspect side-by-side visual diffs right on your touchscreen.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="color: var(--success); background: rgba(0, 230, 118, 0.15);">
+            <i data-lucide="terminal"></i>
+          </div>
+          <h3>Multi-Tab Terminal & Shell</h3>
+          <p>Full ANSI buffer rendering, MobileQuickKeyBar hotkeys (Tab, Esc, Ctrl+C, |), and process signal controls.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i data-lucide="hard-drive"></i>
+          </div>
+          <h3>Local-First Persistence</h3>
+          <p>100% offline project storage, local undo/redo history, automatic backup snapshots, and ZIP export capability.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="color: #A5B4FC; background: rgba(165, 180, 252, 0.15);">
+            <i data-lucide="cpu"></i>
+          </div>
+          <h3>Cloud Runner Sandboxes</h3>
+          <p>Provision isolated Docker containers to run builds (flutter build, npm test) with live CPU & RAM telemetry.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="color: #FFB800; background: rgba(255, 184, 0, 0.15);">
+            <i data-lucide="shield-check"></i>
+          </div>
+          <h3>AES-256 Security & Defense</h3>
+          <p>Token encryption at rest and automated Prompt Injection Defense scrubbing raw secret keys before AI dispatch.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 CodeVanta IDE. All rights reserved.</p>
+    <div style="display: flex; gap: 1.5rem;">
+      <a href="https://github.com/Omatsulijoshua/CODEVANTA" target="_blank" class="nav-link">GitHub</a>
+      <a href="https://codevanta-backend-api.onrender.com/api/docs" target="_blank" class="nav-link">API Docs</a>
+      <a href="https://codevanta-admin.vercel.app" target="_blank" class="nav-link">Admin Dashboard</a>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
