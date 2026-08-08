@@ -52,6 +52,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     ),
   ];
 
+  void _finishOnboarding() {
+    widget.onComplete();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,11 +70,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const CodeVantaLogo(size: 32),
-                  if (_currentPage < _slides.length - 1)
-                    GhostButton(
-                      label: 'Skip',
-                      onPressed: widget.onComplete,
-                    ),
+                  GhostButton(
+                    label: _currentPage == _slides.length - 1 ? 'Start' : 'Skip',
+                    onPressed: _finishOnboarding,
+                  ),
                 ],
               ),
             ),
@@ -87,26 +90,30 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 itemCount: _slides.length,
                 itemBuilder: (context, index) {
                   final slide = _slides[index];
+                  final isLast = index == _slides.length - 1;
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 32),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          width: 120,
-                          height: 120,
-                          decoration: BoxDecoration(
-                            color: slide.accentColor.withValues(alpha: 0.15),
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: slide.accentColor.withValues(alpha: 0.3),
-                              width: 2,
+                        GestureDetector(
+                          onTap: isLast ? _finishOnboarding : null,
+                          child: Container(
+                            width: 120,
+                            height: 120,
+                            decoration: BoxDecoration(
+                              color: slide.accentColor.withValues(alpha: 0.15),
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: slide.accentColor.withValues(alpha: 0.3),
+                                width: 2,
+                              ),
                             ),
-                          ),
-                          child: Icon(
-                            slide.icon,
-                            size: 60,
-                            color: slide.accentColor,
+                            child: Icon(
+                              slide.icon,
+                              size: 60,
+                              color: slide.accentColor,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 40),
@@ -144,16 +151,25 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
                       _slides.length,
-                      (index) => AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        margin: const EdgeInsets.symmetric(horizontal: 4),
-                        width: _currentPage == index ? 24 : 8,
-                        height: 8,
-                        decoration: BoxDecoration(
-                          color: _currentPage == index
-                              ? CodeVantaColors.electricViolet
-                              : CodeVantaColors.darkSurfaceBorder,
-                          borderRadius: BorderRadius.circular(4),
+                      (index) => GestureDetector(
+                        onTap: () {
+                          _pageController.animateToPage(
+                            index,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                          );
+                        },
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          margin: const EdgeInsets.symmetric(horizontal: 4),
+                          width: _currentPage == index ? 24 : 8,
+                          height: 8,
+                          decoration: BoxDecoration(
+                            color: _currentPage == index
+                                ? CodeVantaColors.electricViolet
+                                : CodeVantaColors.darkSurfaceBorder,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
                         ),
                       ),
                     ),
@@ -163,6 +179,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   // Next / Get Started Button
                   PrimaryButton(
                     label: _currentPage == _slides.length - 1 ? 'Get Started' : 'Next',
+                    icon: _currentPage == _slides.length - 1 ? Icons.rocket_launch_rounded : Icons.arrow_forward_rounded,
                     onPressed: () {
                       if (_currentPage < _slides.length - 1) {
                         _pageController.nextPage(
@@ -170,7 +187,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           curve: Curves.easeInOut,
                         );
                       } else {
-                        widget.onComplete();
+                        _finishOnboarding();
                       }
                     },
                   ),
