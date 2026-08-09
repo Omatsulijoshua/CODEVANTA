@@ -7,6 +7,7 @@ import '../../../shared/widgets/cards/file_list_item.dart';
 import '../../../shared/widgets/editor/breadcrumb_bar.dart';
 import '../../../shared/widgets/editor/status_pill.dart';
 import '../../../shared/widgets/inputs/codevanta_text_field.dart';
+import '../../workspace/presentation/workspace_screen.dart';
 import '../domain/project_model.dart';
 
 class ProjectDetailScreen extends StatefulWidget {
@@ -45,6 +46,21 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
     ];
   }
 
+  void _openFileInWorkspace(FileNode file) {
+    if (file.isDirectory) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Opened folder: ${file.name}')),
+      );
+      return;
+    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const WorkspaceScreen(),
+      ),
+    );
+  }
+
   void _showNewFileDialog() {
     final nameController = TextEditingController();
     showDialog(
@@ -59,14 +75,16 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
             fullWidth: false,
             onPressed: () {
               if (nameController.text.isNotEmpty) {
+                final newFile = FileNode(
+                  name: nameController.text,
+                  path: '${widget.project.path}/${nameController.text}',
+                  isDirectory: false,
+                );
                 setState(() {
-                  _files.add(FileNode(
-                    name: nameController.text,
-                    path: '${widget.project.path}/${nameController.text}',
-                    isDirectory: false,
-                  ));
+                  _files.add(newFile);
                 });
                 Navigator.pop(ctx);
+                _openFileInWorkspace(newFile);
               }
             },
           ),
@@ -134,6 +152,18 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
           ),
           actions: [
             IconButton(
+              icon: const Icon(Icons.code_rounded),
+              tooltip: 'Open IDE Workspace',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const WorkspaceScreen(),
+                  ),
+                );
+              },
+            ),
+            IconButton(
               icon: const Icon(Icons.archive_outlined),
               tooltip: 'Export ZIP Archive',
               onPressed: () {
@@ -176,7 +206,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                               return FileListItem(
                                 fileName: item.name,
                                 isFolder: item.isDirectory,
-                                onTap: () {},
+                                onTap: () => _openFileInWorkspace(item),
                               );
                             },
                           ),
