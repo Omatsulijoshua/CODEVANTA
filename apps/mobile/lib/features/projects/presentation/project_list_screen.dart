@@ -34,6 +34,14 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
       createdAt: DateTime.now().subtract(const Duration(days: 5)),
       updatedAt: DateTime.now().subtract(const Duration(hours: 3)),
     ),
+    ProjectModel(
+      id: '3',
+      name: 'Ethereum Smart Contracts',
+      path: '/local/projects/web3_contracts',
+      language: 'Solidity / Web3',
+      createdAt: DateTime.now().subtract(const Duration(days: 1)),
+      updatedAt: DateTime.now().subtract(const Duration(hours: 1)),
+    ),
   ];
 
   final _searchController = TextEditingController();
@@ -41,58 +49,96 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
 
   void _showCreateProjectDialog() {
     final nameController = TextEditingController();
+    final customLangController = TextEditingController();
     String selectedLanguage = 'Dart/Flutter';
+
+    final presetLanguages = [
+      'Dart/Flutter',
+      'TypeScript/Node',
+      'Python',
+      'HTML/CSS/JS',
+      'Solidity / Web3',
+      'Rust',
+      'Go',
+      'Java / Kotlin',
+      'C / C++',
+      'PHP',
+      'Ruby',
+      'Swift',
+      'C# / .NET',
+      'Other (Custom)',
+    ];
 
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Create New Local Project', style: TextStyle(fontWeight: FontWeight.bold)),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CodeVantaTextField(
-              label: 'Project Name',
-              hintText: 'my_flutter_app',
-              controller: nameController,
+      builder: (ctx) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          title: const Text('Create New Local Project', style: TextStyle(fontWeight: FontWeight.bold)),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CodeVantaTextField(
+                  label: 'Project Name',
+                  hintText: 'my_awesome_project',
+                  controller: nameController,
+                ),
+                const SizedBox(height: 16),
+                DropdownButtonFormField<String>(
+                  initialValue: selectedLanguage,
+                  decoration: const InputDecoration(labelText: 'Language / Framework'),
+                  items: presetLanguages
+                      .map((lang) => DropdownMenuItem(value: lang, child: Text(lang)))
+                      .toList(),
+                  onChanged: (val) {
+                    if (val != null) {
+                      setDialogState(() {
+                        selectedLanguage = val;
+                      });
+                    }
+                  },
+                ),
+                if (selectedLanguage == 'Other (Custom)') ...[
+                  const SizedBox(height: 16),
+                  CodeVantaTextField(
+                    label: 'Custom Language / Stack',
+                    hintText: 'e.g. Solidity, Zig, Elixir, Haskell',
+                    controller: customLangController,
+                  ),
+                ],
+              ],
             ),
-            const SizedBox(height: 16),
-            DropdownButtonFormField<String>(
-              initialValue: selectedLanguage,
-              decoration: const InputDecoration(labelText: 'Language / Framework'),
-              items: ['Dart/Flutter', 'TypeScript/Node', 'Python', 'HTML/CSS/JS', 'Rust', 'Go']
-                  .map((lang) => DropdownMenuItem(value: lang, child: Text(lang)))
-                  .toList(),
-              onChanged: (val) {
-                if (val != null) selectedLanguage = val;
+          ),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+            PrimaryButton(
+              label: 'Create',
+              fullWidth: false,
+              onPressed: () {
+                if (nameController.text.isNotEmpty) {
+                  final finalLang = (selectedLanguage == 'Other (Custom)' && customLangController.text.isNotEmpty)
+                      ? customLangController.text
+                      : selectedLanguage;
+
+                  setState(() {
+                    _projects.insert(
+                      0,
+                      ProjectModel(
+                        id: DateTime.now().millisecondsSinceEpoch.toString(),
+                        name: nameController.text,
+                        path: '/local/projects/${nameController.text}',
+                        language: finalLang,
+                        createdAt: DateTime.now(),
+                        updatedAt: DateTime.now(),
+                      ),
+                    );
+                  });
+                  Navigator.pop(ctx);
+                }
               },
             ),
           ],
         ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
-          PrimaryButton(
-            label: 'Create',
-            fullWidth: false,
-            onPressed: () {
-              if (nameController.text.isNotEmpty) {
-                setState(() {
-                  _projects.insert(
-                    0,
-                    ProjectModel(
-                      id: DateTime.now().millisecondsSinceEpoch.toString(),
-                      name: nameController.text,
-                      path: '/local/projects/${nameController.text}',
-                      language: selectedLanguage,
-                      createdAt: DateTime.now(),
-                      updatedAt: DateTime.now(),
-                    ),
-                  );
-                });
-                Navigator.pop(ctx);
-              }
-            },
-          ),
-        ],
       ),
     );
   }
