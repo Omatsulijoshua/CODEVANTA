@@ -3,6 +3,7 @@ import '../../../../core/theme/codevanta_colors.dart';
 import '../../../../shared/widgets/brand/codevanta_logo.dart';
 import '../../../../shared/widgets/buttons/primary_button.dart';
 import '../../../../shared/widgets/buttons/ghost_button.dart';
+import '../../projects/presentation/project_list_screen.dart';
 
 class OnboardingItem {
   final String title;
@@ -19,9 +20,9 @@ class OnboardingItem {
 }
 
 class OnboardingScreen extends StatefulWidget {
-  final VoidCallback onComplete;
+  final VoidCallback? onComplete;
 
-  const OnboardingScreen({super.key, required this.onComplete});
+  const OnboardingScreen({super.key, this.onComplete});
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
@@ -53,7 +54,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   ];
 
   void _finishOnboarding() {
-    widget.onComplete();
+    if (widget.onComplete != null) {
+      widget.onComplete!();
+    }
+    if (mounted) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => const ProjectListScreen(),
+        ),
+      );
+    }
   }
 
   @override

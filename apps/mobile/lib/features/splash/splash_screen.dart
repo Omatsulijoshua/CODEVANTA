@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../core/config/app_config.dart';
 import '../../core/theme/codevanta_colors.dart';
 import '../onboarding/presentation/onboarding_screen.dart';
-import '../projects/presentation/project_list_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,15 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (mounted) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (_) => OnboardingScreen(
-              onComplete: () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (_) => const ProjectListScreen(),
-                  ),
-                );
-              },
-            ),
+            builder: (_) => const OnboardingScreen(),
           ),
         );
       }
