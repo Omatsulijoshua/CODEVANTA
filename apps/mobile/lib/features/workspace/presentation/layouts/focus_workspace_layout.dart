@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/codevanta_colors.dart';
 import '../../../editor/presentation/code_editor_screen.dart';
+import '../../../terminal/presentation/terminal_screen.dart';
 
 class FocusWorkspaceLayout extends StatelessWidget {
   const FocusWorkspaceLayout({super.key});
@@ -12,10 +13,19 @@ class FocusWorkspaceLayout extends StatelessWidget {
         child: Column(
           children: [
             AppBar(title: const Text('File Explorer')),
-            const ListBody(
+            ListBody(
               children: [
-                ListTile(leading: Icon(Icons.folder), title: Text('lib')),
-                ListTile(leading: Icon(Icons.code), title: Text('main.dart')),
+                const ListTile(leading: Icon(Icons.folder), title: Text('lib')),
+                const ListTile(leading: Icon(Icons.code), title: Text('main.dart')),
+                const Divider(),
+                ListTile(
+                  leading: const Icon(Icons.terminal, color: CodeVantaColors.cyanAccent),
+                  title: const Text('Open Terminal Shell'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => const TerminalScreen()));
+                  },
+                ),
               ],
             ),
           ],
