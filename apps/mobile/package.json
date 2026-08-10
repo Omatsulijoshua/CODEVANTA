@@ -1,0 +1,8 @@
+{
+  "name": "codevanta-mobile",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "echo 'Prebuilt Flutter Web'"
+  }
+}
