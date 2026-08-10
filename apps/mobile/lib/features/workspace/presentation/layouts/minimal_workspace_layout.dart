@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/codevanta_colors.dart';
+import '../../../../core/services/termux_launcher_service.dart';
 import '../../../editor/presentation/code_editor_screen.dart';
-import '../../../terminal/presentation/terminal_screen.dart';
 
 class MinimalWorkspaceLayout extends StatelessWidget {
   final VoidCallback onOpenPalette;
@@ -18,7 +18,7 @@ class MinimalWorkspaceLayout extends StatelessWidget {
         children: [
           const CodeEditorScreen(),
 
-          // Floating Command & Terminal Buttons
+          // Floating Command & Termux Terminal Buttons
           Positioned(
             bottom: 24,
             right: 24,
@@ -30,7 +30,7 @@ class MinimalWorkspaceLayout extends StatelessWidget {
                   elevation: 4,
                   child: const Icon(Icons.terminal, color: CodeVantaColors.cyanAccent),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => const TerminalScreen()));
+                    TermuxLauncherService.openTermuxOrFallback(context);
                   },
                 ),
                 const SizedBox(width: 12),

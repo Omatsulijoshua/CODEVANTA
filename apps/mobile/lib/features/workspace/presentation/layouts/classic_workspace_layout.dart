@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/codevanta_colors.dart';
+import '../../../../core/services/termux_launcher_service.dart';
 import '../../../../shared/widgets/cards/file_list_item.dart';
 import '../../../ai/presentation/ai_chat_panel.dart';
 import '../../../billing/presentation/billing_screen.dart';
@@ -8,7 +9,6 @@ import '../../../extensions/presentation/extensions_screen.dart';
 import '../../../git/presentation/git_screen.dart';
 import '../../../github/presentation/github_screen.dart';
 import '../../../search/presentation/global_search_screen.dart';
-import '../../../terminal/presentation/terminal_screen.dart';
 import '../../../../shared/widgets/inputs/codevanta_text_field.dart';
 import '../../../../shared/widgets/buttons/primary_button.dart';
 
@@ -168,10 +168,10 @@ contract CodeVantaToken {
                   },
                 ),
                 IconButton(
-                  tooltip: 'Terminal Shell',
+                  tooltip: 'Termux / Cloud Terminal',
                   icon: Icon(Icons.terminal, color: _activeRailIndex == 4 ? CodeVantaColors.cyanAccent : null),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => const TerminalScreen()));
+                    TermuxLauncherService.openTermuxOrFallback(context);
                   },
                 ),
                 IconButton(
