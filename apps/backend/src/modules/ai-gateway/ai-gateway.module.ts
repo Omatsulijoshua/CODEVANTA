@@ -5,6 +5,7 @@ import { OpenAiAdapter } from './adapters/openai.adapter';
 import { AnthropicAdapter } from './adapters/anthropic.adapter';
 import { GeminiAdapter } from './adapters/gemini.adapter';
 import { OpenRouterAdapter } from './adapters/openrouter.adapter';
+import { GroqAdapter } from './adapters/groq.adapter';
 
 @Module({
   controllers: [AiGatewayController],
@@ -14,6 +15,7 @@ import { OpenRouterAdapter } from './adapters/openrouter.adapter';
     AnthropicAdapter,
     GeminiAdapter,
     OpenRouterAdapter,
+    GroqAdapter,
   ],
   exports: [AiGatewayService],
 })

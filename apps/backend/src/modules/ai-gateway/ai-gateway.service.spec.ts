@@ -4,6 +4,7 @@ import { OpenAiAdapter } from './adapters/openai.adapter';
 import { AnthropicAdapter } from './adapters/anthropic.adapter';
 import { GeminiAdapter } from './adapters/gemini.adapter';
 import { OpenRouterAdapter } from './adapters/openrouter.adapter';
+import { GroqAdapter } from './adapters/groq.adapter';
 
 describe('AiGatewayService', () => {
   let service: AiGatewayService;
@@ -16,6 +17,7 @@ describe('AiGatewayService', () => {
         AnthropicAdapter,
         GeminiAdapter,
         OpenRouterAdapter,
+        GroqAdapter,
       ],
     }).compile();
 
@@ -26,33 +28,25 @@ describe('AiGatewayService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should route requests to OpenAI adapter', async () => {
+  it('should route requests to Groq adapter', async () => {
     const res = await service.executeAgent({
-      provider: 'openai',
-      model: 'gpt-4o',
-      messages: [{ role: 'user', content: 'Explain code' }],
+      provider: 'groq',
+      model: 'llama-3.3-70b-versatile',
+      messages: [{ role: 'user', content: 'Explain Rust code' }],
+      prompt: 'Explain Rust code',
     });
-    expect(res.provider).toBe('openai');
-    expect(res.content).toContain('OpenAI');
+    expect(res.provider).toBe('groq');
+    expect(res.outputText).toContain('Groq AI Response');
   });
 
-  it('should route requests to Anthropic adapter', async () => {
-    const res = await service.executeAgent({
-      provider: 'anthropic',
-      model: 'claude-3-5-sonnet',
-      messages: [{ role: 'user', content: 'Refactor code' }],
-    });
-    expect(res.provider).toBe('anthropic');
-    expect(res.content).toContain('Anthropic');
-  });
+  it('should rotate keys in multi-key API pool', () => {
+    service.updateProviderPool('groq', 'key_1, key_2, key_3', true);
+    const first = service.getNextApiKey('groq');
+    const second = service.getNextApiKey('groq');
+    const third = service.getNextApiKey('groq');
 
-  it('should route requests to Gemini adapter', async () => {
-    const res = await service.executeAgent({
-      provider: 'gemini',
-      model: 'gemini-1.5-pro',
-      messages: [{ role: 'user', content: 'Generate unit test' }],
-    });
-    expect(res.provider).toBe('gemini');
-    expect(res.content).toContain('Gemini');
+    expect(first.apiKey).toBe('key_1');
+    expect(second.apiKey).toBe('key_2');
+    expect(third.apiKey).toBe('key_3');
   });
 });

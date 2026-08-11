@@ -4,22 +4,31 @@ export interface AgentMessagePayload {
 }
 
 export interface AgentExecutionRequest {
-  provider: 'openai' | 'anthropic' | 'gemini' | 'openrouter';
+  provider: 'openai' | 'anthropic' | 'gemini' | 'openrouter' | 'groq';
   model: string;
   messages: AgentMessagePayload[];
+  prompt?: string;
   temperature?: number;
   maxTokens?: number;
 }
 
 export interface AgentExecutionResponse {
-  id: string;
+  executionId?: string;
+  id?: string;
   provider: string;
   model: string;
-  content: string;
-  usage: {
+  outputText?: string;
+  content?: string;
+  tokensUsed?: {
     promptTokens: number;
     completionTokens: number;
     totalTokens: number;
   };
-  timestamp: string;
+  usage?: {
+    promptTokens: number;
+    completionTokens: number;
+    totalTokens: number;
+  };
+  durationMs?: number;
+  timestamp?: string;
 }
