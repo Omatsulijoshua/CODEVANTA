@@ -2,131 +2,140 @@
 ### *"YOUR IDE. YOUR CODE. YOUR AI."*
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/Omatsulijoshua/CODEVANTA)
-[![Backend API](https://img.shields.io/badge/NestJS-v10.3.0-E0234E.svg)](https://codevanta-backend-api.onrender.com/api/docs)
+[![Web IDE App](https://img.shields.io/badge/Web_IDE-Live_v1.0.0-6E00FF.svg)](https://codevanta-app.vercel.app)
+[![Admin Control](https://img.shields.io/badge/Next.js_Admin-Live_v14.2.35-000000.svg)](https://codevanta-admin.vercel.app)
+[![Backend API](https://img.shields.io/badge/NestJS_Backend-v10.3.0-E0234E.svg)](https://codevanta-backend-api.onrender.com/api/docs)
 [![Mobile Engine](https://img.shields.io/badge/Flutter-v3.44+-02569B.svg)](https://github.com/Omatsulijoshua/CODEVANTA)
-[![Admin Control](https://img.shields.io/badge/Next.js-v14.2.35-000000.svg)](https://github.com/Omatsulijoshua/CODEVANTA)
 [![License](https://img.shields.io/badge/license-UNLICENSED-purple.svg)](https://github.com/Omatsulijoshua/CODEVANTA)
 
-CodeVanta is a professional, mobile-first development environment built for iPhone, iPad, Android, and Web, inspired by desktop workflows (VS Code, Sublime Text) but engineered specifically for touchscreens, external keyboards, and autonomous mobile AI workflows.
+CodeVanta is a professional, cross-platform mobile AI development environment built for iPhone, iPad, Android, and Web. Inspired by modern desktop IDEs (VS Code, Sublime Text), CodeVanta is engineered specifically for touchscreens, external keyboards, Termux local terminal integration, and autonomous mobile AI coding workflows.
 
 ---
 
-## 🌐 Live Production API & Deployment Links
+## 🌐 Live Production Deployments & API Endpoints
 
-- 🚀 **Live NestJS Backend API (Render)**: [`https://codevanta-backend-api.onrender.com`](https://codevanta-backend-api.onrender.com)
-- 📖 **API Swagger Documentation**: [`https://codevanta-backend-api.onrender.com/api/docs`](https://codevanta-backend-api.onrender.com/api/docs)
-- 🏥 **Health Telemetry Check**: [`https://codevanta-backend-api.onrender.com/api/v1/health`](https://codevanta-backend-api.onrender.com/api/v1/health)
+| Platform Module | Production Live URL | Description |
+| :--- | :--- | :--- |
+| 📱 **Web IDE App** | [`https://codevanta-app.vercel.app`](https://codevanta-app.vercel.app) | Full Flutter Web IDE (Onboarding, File Explorer, Editor, Terminal, AI Agents, Git, Extensions) |
+| 👑 **Admin Dashboard** | [`https://codevanta-admin.vercel.app`](https://codevanta-admin.vercel.app) | Production SaaS Admin Control Panel (User management, AI Multi-Key pools, Telemetry, Subscriptions) |
+| 🌐 **Landing Page Website** | [`https://codevanta-website.vercel.app`](https://codevanta-website.vercel.app) | Official product landing page with iOS & Android download links |
+| ⚡ **NestJS Backend API Gateway** | [`https://codevanta-backend-api.onrender.com`](https://codevanta-backend-api.onrender.com) | Render Microservices API Gateway & AI Provider Adapter |
+| 📖 **Swagger API Docs** | [`https://codevanta-backend-api.onrender.com/api/docs`](https://codevanta-backend-api.onrender.com/api/docs) | Interactive OpenAPI / Swagger API Documentation |
+| 🏥 **Health Telemetry Check** | [`https://codevanta-backend-api.onrender.com/api/v1/health`](https://codevanta-backend-api.onrender.com/api/v1/health) | API Gateway & Database Health Check Endpoint |
 
 ---
 
-## 🏛️ Monorepo Workspace Structure
+## 🏛️ Monorepo Workspace Architecture
 
-```
+```text
 CODEVANTA MONOREPO
 ├── apps/
-│   ├── mobile/           # Flutter Mobile Client (iOS, Android & Web)
+│   ├── mobile/           # Flutter Mobile IDE Client (iOS, Android & Web)
 │   │   ├── lib/
-│   │   │   ├── core/     # Theme, AppConfig (Render API), AES-256 Security & Prompt Sanitizer
+│   │   │   ├── core/     # Theme, AppConfig, Termux Launcher, AES-256 Security & Prompt Sanitizer
 │   │   │   ├── shared/   # Reusable Atomic UI Component Library
-│   │   │   └── features/ # Projects, Editor, Workspace, Search, Git, GitHub, AI, Cloud, Terminal, Palette, Extensions, Billing
-│   │   └── test/         # 27 Widget & Unit Test Suites (100% Passing)
-│   ├── backend/          # NestJS Microservice API Gateway
+│   │   │   └── features/ # Onboarding, Projects, Editor, Workspace, Search, Git, GitHub, AI, Cloud, Terminal, Extensions, Billing
+│   │   └── test/         # 28 Widget & Unit Test Suites (100% Passing)
+│   ├── backend/          # NestJS Microservices & AI Gateway API
 │   │   ├── src/
 │   │   │   ├── core/     # Prisma PostgreSQL & Redis Client Modules
 │   │   │   └── modules/  # Auth, Health, GitHub, AI Gateway, Cloud Runner, Subscriptions, Security
-│   │   └── test/         # Jest Unit Test Suite (7/7 Suites, 18/18 Tests Passing)
-│   └── admin/            # Next.js 14 Web Admin Control Panel
-│       └── src/app/      # Overview Telemetry, User Management & AI Provider Credentials
+│   │   └── test/         # Jest Unit Test Suite (7/7 Suites, 17/17 Tests Passing)
+│   └── admin/            # Next.js 14 SaaS Admin Platform
+│       └── src/
+│           ├── app/      # 24 App Router pages (Dashboard, Users, AI Providers, Security, Subscriptions, Audit)
+│           ├── components/ # AdminSidebar, AdminTopNav, AdminShell, Data Tables, Charts
+│           └── types/    # Role-Based Access Control (RBAC) Matrix
+├── websites/             # Static Marketing & Download Site (HTML5/CSS3)
 ├── docker-compose.yml     # PostgreSQL 16 & Redis 7 Container Stack
-├── README.md             # Project Documentation & Deployment Guide
+├── README.md             # Platform Documentation & Guide
 └── package.json          # Monorepo Workspace Configuration
 ```
 
 ---
 
-## ✨ Features & Architecture Highlights
+## ✨ Key Features & Architecture Highlights
 
-### 🎨 1. Design System & Ergonomics
-- **Curated Color Tokens**: Electric Violet (`#6E00FF`), Cyber Cyan (`#00F0FF`), Dark Graphite (`#12121A`), Warning Amber (`#FFB800`), Success Green (`#00E676`).
-- **Modern Typography**: Google Fonts `Inter` for interface elements and `Fira Code` for code syntax highlighting.
-- **Responsive Layout Switcher**:
-  - **Style A (Classic)**: Professional desktop IDE rail, collapsible file explorer, editor tabs, and AI panel.
-  - **Style B (Minimal)**: Full-screen editor viewport with floating glassmorphic action palette.
-  - **Style C (Focus)**: Full-screen gesture-driven editor with iOS edge swipe drawers.
+### 🧠 1. Multi-API Key Pooling & AI Gateway Load-Balancing
+- **Multi-API Key Pooling**: Admins can configure comma-separated API key pools per provider (e.g. 2 Groq keys, 2 Gemini keys, 2 OpenAI keys) to maximize free API tier limits and prevent `429 Rate Limit` errors.
+- **Round-Robin Key Rotation**: Automatically rotates sequentially through available active keys (`getNextApiKey()`) on every prompt execution to distribute load.
+- **Smart Fallback Chain**: Automatic cascade routing (Primary Provider -> Fallback 1 -> Fallback 2) if a primary provider hits rate limits or experiences downtime.
+- **Supported Adapters**: **Groq** (Llama 3.3 70B), **Google Gemini** (Gemini 1.5 Pro/Flash), **OpenAI** (GPT-4o), **Anthropic** (Claude 3.5 Sonnet), and **OpenRouter**.
 
-### 💾 2. Local-First Project System & Code Editor
-- **Local File System**: 100% offline file CRUD, project creation wizards, local backup snapshots, and `.zip` archive exports.
-- **Code Editor Engine**: High-performance syntax highlighter supporting 20+ programming languages, line numbers, dirty file tracking, undo/redo stack, and find & replace all.
+### 📱 2. Termux Deep-Linking & Touch Ergonomics
+- **Termux Integration**: On Android devices, tapping the Terminal icon automatically launches **Termux** (`termux://open?cd=...`) pointing directly to the active project working directory.
+- **Smart Fallback Bottom Sheet**: If Termux is not installed (or running on Web/iOS), CodeVanta prompts the user with options to:
+  - ⚡ Launch In-App Cloud Terminal (`TerminalScreen`) with multi-tab shell sessions and the touch **MobileQuickKeyBar** (`Tab`, `Esc`, `Ctrl+C`, `|`, `~`, `$`).
+  - 🤖 Download Termux from Google Play Store (`com.termux`).
+  - 📦 Download Termux from F-Droid.
 
-### 🌿 3. Touch-Friendly Git Client & GitHub Sync
-- **On-Device Git Client**: `git init`, file staging/unstaging, `git commit`, branch management, stash manager, commit log timeline, and side-by-side visual diff viewer.
-- **GitHub Platform Integration**: GitHub OAuth token exchange, remote repository browser, one-tap clone, issue tracker, and Pull Request manager with one-tap merge.
+### 🎨 3. Design System & Ergonomic Workspace Layouts
+- **Curated Color Palette**: Electric Violet (`#6D28D9`), Cyber Cyan (`#22D3EE`), Dark Graphite (`#0B0D12`), Surface Card (`#12141F`).
+- **3 Dynamic Workspace Layouts**:
+  - **Style A (Classic)**: Desktop IDE layout with Activity Rail, Explorer, Editor Tabs, and AI Panel.
+  - **Style B (Minimal)**: Full-screen editor viewport with floating glassmorphic command palette.
+  - **Style C (Focus)**: Full-screen gesture-driven editor with edge swipe drawers.
 
-### 🤖 4. Multi-Provider AI Gateway & Autonomous Code Agent
-- **AI Gateway Platform**: Standardized agent protocol adapter supporting **OpenAI** (GPT-4o), **Anthropic** (Claude 3.5 Sonnet), **Google Gemini** (Gemini 1.5 Pro), and **OpenRouter** (for any custom or open-weights model).
-- **AI Chat & Context Engine**: Multi-session conversation history, context attachment pills (`@file`, `@folder`, `@selection`, `@terminal`, `@error`), and one-tap "Apply to File" triggers.
-- **Autonomous AI Code Agent**: Granular security permission scopes (`READ`, `SEARCH`, `EDIT`, `CREATE`, `DELETE`, `TERMINAL`, `NETWORK`), pre-edit snapshot recovery, and visual diff review screens (`Accept File`, `Reject File`, `Rollback`).
+### 💾 4. Local-First Project System & Dynamic File Editor
+- **Local File System**: 100% offline file CRUD, project wizards (Dart/Flutter, TypeScript/Node, Python, HTML/CSS/JS, **Solidity / Web3**, Rust, Go, **Other Custom Stacks**), local backup snapshots, and ZIP exports.
+- **Code Editor Engine**: Line numbers, dirty file tracking, undo/redo stack, and find & replace bar.
 
-### ☁️ 5. Cloud Runner & Terminal Engine
-- **Cloud Sandbox Execution**: Remote Docker container provisioning, live WebSocket stdout/stderr log streaming, and container resource telemetry bar (vCPU %, RAM MB, mapped web ports).
-- **Mobile Terminal**: Multi-tab shell sessions, ANSI color output, command history, and a touch **MobileQuickKeyBar** (`Tab`, `Esc`, `Ctrl+C`, `|`, `/`, `-`, `~`, `$`, `Up`, `Down`, `Left`, `Right`).
+### 🌿 5. Touch-Friendly Git Client & GitHub Sync
+- **On-Device Git Client**: Staging/unstaging, `git commit`, branch manager, stash manager, and visual diff viewer.
+- **GitHub Platform Integration**: OAuth token exchange, remote repository browser, one-tap clone, issue tracker, and Pull Request manager.
 
-### 🧩 6. Extension System, Billing & Admin Control
-- **Extension Marketplace**: Extension manifests (`ID`, `publisher`, `permissions`), sandboxed runtime execution, and marketplace discovery for Themes, Syntax, AI Agents, and Tools.
-- **Monetization Tiers**: Free, Pro (\$19/mo), and Team (\$49/mo) plans, Stripe checkout, usage meters, and Paywall modal.
-- **Next.js 14 Admin Panel**: Executive KPI metrics (Total Users, DAU, MRR, AI Tokens), User account management with suspension toggle, AI provider API key configuration, and real-time infrastructure telemetry.
+### 👑 6. Production SaaS Admin Dashboard Platform
+- **Role-Based Access Control (RBAC)**: 6 granular admin scopes (`SUPER_ADMIN`, `PLATFORM_ADMIN`, `AI_ADMIN`, `BILLING_ADMIN`, `SUPPORT_ADMIN`, `SECURITY_ADMIN`).
+- **System Administration**: User account management with suspension toggle, AI provider key manager, cloud environment monitoring, subscription management, security alerts, and immutable audit logs.
 
 ---
 
 ## 🧪 Quality & Automated Testing Results
 
-```
-========================= MONOREPO VERIFICATION SUMMARY =========================
+```text
+========================= MONOREPO VERIFICATION METRICS =========================
 
 1. NestJS Backend Gateway (apps/backend):
-   - Test Suites: 7 passed, 7 total
-   - Unit Tests:  18 passed, 18 total (100% Pass Rate)
+   - Test Suites: 7 passed, 7 total (100% Pass Rate)
+   - Unit Tests:  17 passed, 17 total
    - Modules:     Auth, Health, GitHub, AI Gateway, Cloud Runner, Subscriptions, Security
 
-2. Next.js Admin Panel (apps/admin):
-   - Build Status: Compiled successfully (4/4 static pages optimized)
+2. Next.js Admin Dashboard (apps/admin):
+   - Build Status: Compiled successfully (24/24 static pages optimized cleanly)
 
 3. Flutter Mobile IDE (apps/mobile):
    - Static Analysis: flutter analyze -> NO ISSUES FOUND! (0 warnings / 0 errors)
-   - Test Suites:     27 passed, 27 total (100% Pass Rate across all features)
+   - Test Suites:     28 passed, 28 total (100% Pass Rate across all feature modules)
 
 ================================================================================
 ```
 
 ---
 
-## 🚀 Deployment Instructions
+## 💻 Local Development Setup
 
-### 1. Render Deployment (NestJS Backend API)
-- **Root Directory**: `apps/backend`
-- **Build Command**: `npm ci --include=dev && npx prisma generate && npm run build`
-- **Start Command**: `npx prisma db push && npm run start:prod`
-- **Environment Variables**:
-  - `NODE_ENV`: `production`
-  - `PORT`: `3000`
-  - `DATABASE_URL`: `postgresql://codevanta:password@host:5432/codevanta_db`
-  - `JWT_SECRET`: `codevanta_super_secret_jwt_key_prod_2026`
+```bash
+# 1. Clone Repository & Install Root Dependencies
+git clone https://github.com/Omatsulijoshua/CODEVANTA.git
+cd CODEVANTA
+npm install
 
-### 2. Vercel Deployment (Next.js Admin Dashboard)
-- **Framework Preset**: Next.js
-- **Root Directory**: `apps/admin`
-- **Build Command**: `npm run build`
-- Configuration file included in [`apps/admin/vercel.json`](file:///c:/Users/Joshua/Desktop/My%20Projects/apps/CODEVANTA/apps/admin/vercel.json).
+# 2. Run NestJS Backend Gateway API (Port 3000)
+cd apps/backend
+npm run start:dev
 
-### 3. Vercel Deployment (Flutter Web Mobile Client)
-- **Framework Preset**: Other
-- **Root Directory**: `apps/mobile`
-- **Build Command**: `flutter build web`
-- Configuration file included in [`apps/mobile/vercel.json`](file:///c:/Users/Joshua/Desktop/My%20Projects/apps/CODEVANTA/apps/mobile/vercel.json).
+# 3. Run Next.js Admin Dashboard (Port 3001)
+cd apps/admin
+npm run dev
+
+# 4. Run Flutter Mobile Client (Web / Device)
+cd apps/mobile
+flutter run -d chrome
+```
 
 ---
 
-## 🔒 Security & Privacy
+## 🔒 Security & Data Defense
 
 - All developer credentials, OAuth tokens, and secret keys are encrypted at rest using **AES-256-GCM**.
 - Built-in **Prompt Injection Defense** automatically redacts raw API key strings (`sk-`, `ghp_`, `bearer`) before prompt payloads are dispatched to LLM providers.
